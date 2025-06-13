@@ -1,0 +1,33 @@
+version: "2"
+linters:
+  default: "all"
+  settings:
+    depguard:
+      rules:
+        applications-restriction:
+          list-mode: strict
+          files:
+            - "*"
+            - "!**_test.go"
+            - "!**/applications/use-cases/**"
+            - "!**/applications/dtos/**"
+            - "!**/applications/mappers/**"
+          allow:
+            - $gostd
+            - "github.com/aws"
+            - "product/applications/use-cases"
+            - "product/applications/dtos"
+            - "product/applications/mappers"
+          deny:
+            - pkg: "product/domains"
+              desc: Import domains is a violation for application layers
+            - pkg: "product/applications/controller"
+              desc: Import controller in other layers
+
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - golines
